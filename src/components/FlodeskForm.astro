@@ -1,0 +1,70 @@
+---
+type FormKind = 'general' | 'starters' | 'prep';
+
+interface Props {
+  kind: FormKind;
+  heading?: string;
+  description?: string;
+}
+
+const forms = {
+  general: {
+    id: '63f9e4e2f0116a4cabfef7db',
+    config: 'eyJ0cmlnZ2VyIjp7Im1vZGUiOiJpbW1lZGlhdGVseSIsInZhbHVlIjowfSwib25TdWNjZXNzIjp7Im1vZGUiOiJtZXNzYWdlIiwibWVzc2FnZSI6IiIsInJlZGlyZWN0VXJsIjoiaHR0cHM6Ly9saXNib25kYXRhc2NpZW5jZS5vcmcvIn0sImNvaSI6ZmFsc2UsInNob3dGb3JSZXR1cm5WaXNpdG9ycyI6dHJ1ZSwibm90aWZpY2F0aW9uIjpmYWxzZX0=',
+  },
+  starters: {
+    id: '615c9641c71e8685f183bd18',
+    config: 'eyJ0cmlnZ2VyIjp7Im1vZGUiOiJpbW1lZGlhdGVseSIsInZhbHVlIjowfSwib25TdWNjZXNzIjp7Im1vZGUiOiJyZWRpcmVjdCIsIm1lc3NhZ2UiOiIiLCJyZWRpcmVjdFVybCI6Imh0dHBzOi8vbGlzYm9uZGF0YXNjaWVuY2Uub3JnIn0sImNvaSI6ZmFsc2UsInNob3dGb3JSZXR1cm5WaXNpdG9ycyI6dHJ1ZSwibm90aWZpY2F0aW9uIjpmYWxzZX0=',
+  },
+  prep: {
+    id: '6172e62fe625581864e3f857',
+    config: 'eyJ0cmlnZ2VyIjp7Im1vZGUiOiJpbW1lZGlhdGVseSIsInZhbHVlIjowfSwib25TdWNjZXNzIjp7Im1vZGUiOiJyZWRpcmVjdCIsIm1lc3NhZ2UiOiIiLCJyZWRpcmVjdFVybCI6Imh0dHBzOi8vd3d3Lmxpc2JvbmRhdGFzY2llbmNlLm9yZy9wcmVwLWNvdXJzZS8ifSwiY29pIjpmYWxzZSwic2hvd0ZvclJldHVyblZpc2l0b3JzIjp0cnVlLCJub3RpZmljYXRpb24iOmZhbHNlfQ==',
+  },
+} as const;
+
+const { kind, heading = 'Get the next announcement', description = 'Join the LDSA mailing list. We only send useful Academy news.' } = Astro.props;
+const form = forms[kind];
+const rootSelector = `.flodesk-${form.id}`;
+---
+
+<section class={`newsletter flodesk-${form.id}`} data-ff-el="root" data-ff-version="3" data-ff-type="inline" data-ff-name="inlineNoImage" aria-labelledby={`newsletter-${form.id}`}>
+  <div data-ff-el="config" data-ff-config={form.config} hidden></div>
+  <div class="newsletter-copy">
+    <p class="eyebrow">Stay in the loop</p>
+    <h2 id={`newsletter-${form.id}`}>{heading}</h2>
+    <p>{description}</p>
+  </div>
+  <form action={`https://form.flodesk.com/forms/${form.id}/submit`} method="post" data-ff-el="form" class="newsletter-form">
+    <div class="newsletter-fields" data-ff-el="content">
+      <div data-ff-el="fields">
+        <label for={`email-${form.id}`}>Email address</label>
+        <input id={`email-${form.id}`} type="email" maxlength="255" name="email" autocomplete="email" placeholder="you@example.com" required data-ff-tab="email::submit" />
+        <input class="honeypot" type="text" name="confirm_email_address" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      </div>
+      {kind === 'general' && (
+        <fieldset class="preferences">
+          <legend>What are you interested in?</legend>
+          <label><input type="checkbox" name="preferences" value="option1" /> Starters Academy</label>
+          <label><input type="checkbox" name="preferences" value="option2" /> Prep Course</label>
+        </fieldset>
+      )}
+      <button class="button button-light" type="submit" data-ff-el="submit" data-ff-tab="submit">Subscribe</button>
+    </div>
+    <div class="form-success" data-ff-el="success" role="status">Thank you for subscribing. Keep an eye on your inbox.</div>
+    <div class="form-error" data-ff-el="error" role="alert"></div>
+  </form>
+</section>
+
+<script is:inline define:vars={{ formId: form.id, rootSelector }}>
+  (function (w, d, t, h, s, n) {
+    w.FlodeskObject = n;
+    var fn = function () { (w[n].q = w[n].q || []).push(arguments); };
+    w[n] = w[n] || fn;
+    var first = d.getElementsByTagName(t)[0];
+    var script = d.createElement(t);
+    script.async = true;
+    script.src = h + s + '.js?v=' + Math.floor(Date.now() / 120000);
+    first.parentNode.insertBefore(script, first);
+  })(window, document, 'script', 'https://assets.flodesk.com', '/universal', 'fd');
+  window.fd('form:handle', { formId: formId, rootEl: rootSelector });
+</script>

@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { team } from '../data/site';
+---
+
+<BaseLayout
+  title="About us"
+  description="Meet the volunteer community behind the Lisbon Data Science Academy and learn how the non-profit reinvests in accessible data science education."
+>
+  <header class="page-hero">
+    <div class="shell">
+      <p class="eyebrow">About LDSA</p>
+      <h1>Built by data people who love to teach.</h1>
+      <p>We are a volunteer community from many organisations and backgrounds, united by the belief that excellent data science education should be practical, open and welcoming.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="shell split">
+      <div class="image-frame"><img src="/images/community.jpeg" width="1200" height="900" alt="Members of the Lisbon Data Science Academy community" /></div>
+      <div class="split-copy">
+        <p class="eyebrow">A non-profit learning community</p>
+        <h2>Every contribution goes back into the programme.</h2>
+        <p>LDSA is run by volunteers. Course fees support the programme and its learners, helping us improve materials, teaching, access and the community around them.</p>
+        <p>Our instructors and organisers bring experience from research, startups, consultancies, public institutions and technology companies. What connects them is a willingness to share what they know.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="shell">
+      <div class="section-heading"><div><p class="eyebrow">People over the years</p><h2>The community behind LDSA.</h2></div><p>This migration preserves the volunteer roster published on the previous website. Roles and employers change over time; the shared contribution to LDSA is what matters here.</p></div>
+      <div class="team-list" aria-label="LDSA volunteers">
+        {team.map((person) => <span>{person}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell stats">
+      <div class="stat"><strong>100%</strong><span>run by volunteers</span></div>
+      <div class="stat"><strong>Open</strong><span>learning materials shared publicly</span></div>
+      <div class="stat"><strong>Lisbon</strong><span>rooted locally, learning remotely</span></div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="shell split">
+      <div class="split-copy">
+        <p class="eyebrow">Get involved</p>
+        <h2>Help the next cohort learn.</h2>
+        <p>Teaching, mentoring, reviewing materials, organising events and supporting operations all make the Academy possible.</p>
+        <a class="button button-dark" href="mailto:info@lisbondatascience.org?subject=Volunteering%20with%20LDSA">Talk to the team</a>
+      </div>
+      <div class="image-frame"><img src="/images/academy.JPG" width="1200" height="900" alt="LDSA volunteers and learners at an Academy session" loading="lazy" /></div>
+    </div>
+  </section>
+</BaseLayout>

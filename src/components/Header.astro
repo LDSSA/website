@@ -1,0 +1,41 @@
+---
+import { navigation } from '../data/site';
+
+const pathname = Astro.url.pathname;
+---
+
+<header class="site-header" data-site-header>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="shell header-inner">
+    <a class="brand" href="/" aria-label="Lisbon Data Science Academy home">
+      <img src="/images/ldsa-logo.png" width="178" height="70" alt="Lisbon Data Science Academy" />
+    </a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation" data-menu-button>
+      <span class="sr-only">Open menu</span>
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+    </button>
+    <nav id="primary-navigation" class="primary-navigation" aria-label="Primary" data-menu>
+      {navigation.map((item) => (
+        <a href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>{item.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('[data-menu-button]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+
+  button?.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!open));
+    menu?.toggleAttribute('data-open', !open);
+  });
+
+  menu?.addEventListener('click', (event) => {
+    if ((event.target as HTMLElement).closest('a')) {
+      button?.setAttribute('aria-expanded', 'false');
+      menu.removeAttribute('data-open');
+    }
+  });
+</script>

@@ -147,3 +147,9 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Cloudflare local state and platform files
+.wrangler/
+
+# OS metadata
+.DS_Store
