@@ -10,6 +10,7 @@ Record the tester, date, deployed commit and result for each test. Do not use re
 - [ ] GitHub Actions CI passes on the pull request.
 - [ ] Lighthouse meets the repository thresholds for all five maintained routes.
 - [ ] Cloudflare deployment is associated with the expected commit and branch.
+- [ ] The post-deployment contract check passes against the immutable Cloudflare URL.
 
 ## Preview access and indexing
 

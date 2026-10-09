@@ -24,7 +24,7 @@ npm run check
 npm run format:check
 ```
 
-`npm run check` type-checks the Astro source, builds the production site, validates internal links and local assets, rejects Unbounce dependencies, verifies the three preserved Flodesk endpoints, and confirms Cloudflare deployment files and the sitemap are present.
+`npm run check` type-checks the Astro source, builds the production site, validates internal links and local assets, rejects Unbounce dependencies, verifies the three preserved Flodesk endpoints, and confirms Cloudflare deployment files and the sitemap are present. After each Cloudflare deployment, GitHub Actions also checks the live routes, redirects, 404 page, security and indexing headers, sitemap, and deployed commit identity.
 
 ## Branches and deployment
 

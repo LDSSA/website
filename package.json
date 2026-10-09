@@ -13,6 +13,7 @@
     "typecheck": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "test": "npm run build && node scripts/check-site.mjs",
     "check": "npm run typecheck && npm test",
+    "check:deployment": "node scripts/check-deployment.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

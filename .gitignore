@@ -151,5 +151,8 @@ vite.config.ts.timestamp-*
 # Cloudflare local state and platform files
 .wrangler/
 
+# Private migration evidence exported from Unbounce
+/_local-dev/unbounce-export/
+
 # OS metadata
 .DS_Store
