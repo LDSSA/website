@@ -27,6 +27,11 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Verify production promotion source
+        if: github.base_ref == 'main' && github.head_ref != 'dev'
+        run: |
+          echo "::error::Only the dev branch may be promoted to main."
+          exit 1
       - name: Check formatting
         run: npm run format:check
       - name: Type-check and test production build
