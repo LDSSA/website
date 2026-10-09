@@ -26,7 +26,13 @@ for (const page of requiredPages) {
 }
 
 const redirects = readFileSync(join(output, "_redirects"), "utf8");
-for (const legacyPath of ["/curriculum/", "/faq/"]) {
+for (const legacyPath of [
+  "/curriculum/",
+  "/faq/",
+  "/comms-associate-position/",
+  "/pythonzerotohero/",
+  "/d-form_confirmation.html",
+]) {
   if (!redirects.includes(legacyPath))
     errors.push(`Missing redirect for ${legacyPath}`);
 }
@@ -94,6 +100,11 @@ for (const formId of [
   if (!allHtml.includes(endpoint))
     errors.push(`Missing preserved Flodesk endpoint: ${endpoint}`);
 }
+
+if (!allHtml.includes("https://assets.flodesk.com/universal.mjs"))
+  errors.push("Missing modern Flodesk form runtime");
+if (!allHtml.includes("https://assets.flodesk.com/universal.js"))
+  errors.push("Missing legacy Flodesk form runtime fallback");
 
 if (!existsSync(join(output, "sitemap-index.xml")))
   errors.push("Missing generated sitemap index");

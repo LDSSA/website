@@ -2,6 +2,8 @@
 
 The repository uses GitHub Actions and Wrangler Direct Upload. This keeps the build and deployment checks in one auditable workflow instead of asking Cloudflare and GitHub to build the same commit independently.
 
+The project must remain on free infrastructure. Cloudflare Pages serves this static site without Pages Functions, paid Workers, R2, or another billable runtime. Preview authentication uses the Cloudflare Zero Trust Free plan, which currently supports up to 50 users. Confirm that the dashboard still shows the Free plan whenever enabling a new Cloudflare product.
+
 ## 1. Create the Pages project
 
 In the LDSA Cloudflare account, create a Pages project named `ldsa-website` using Direct Upload. Do not attach the production domain yet.
@@ -29,15 +31,19 @@ Never commit tokens or put them in shell history. The workflow passes them direc
 
 ## 3. Protect preview deployments
 
-In Cloudflare Zero Trust, protect preview deployments with Access:
+In Cloudflare Zero Trust, protect preview deployments with Access. Complete the service-token steps first so GitHub Actions can continue checking the protected deployment:
 
-1. Open **Workers & Pages → ldsa-website → Settings**.
-2. Enable the preview access policy.
-3. Allow only the LDSA team identity group or approved email addresses.
-4. Confirm the production `*.pages.dev` deployment is not accidentally covered by the preview-only policy.
-5. Open `https://dev.ldsa-website.pages.dev/` in a signed-out browser and confirm Cloudflare Access blocks it.
+1. Open **Zero Trust → Access controls → Service credentials → Service Tokens**.
+2. Create `github-actions-ldsa-preview-smoke`, choose an appropriate expiry, and copy its Client ID and Client Secret once.
+3. In GitHub repository Actions secrets, add the values as `CF_ACCESS_CLIENT_ID` and `CF_ACCESS_CLIENT_SECRET`.
+4. Open **Workers & Pages → ldsa-website → Settings → General** and select **Enable access policy**.
+5. Manage the generated Access application and keep its interactive Allow policy limited to the LDSA Cloudflare account members or explicitly approved tester emails.
+6. Add a second policy with action **Service Auth**, include only the `github-actions-ldsa-preview-smoke` service token, and save it. New Zero Trust organizations use strict service-token authentication, so an ordinary Allow policy is insufficient for CI.
+7. Confirm the policy wildcard covers preview aliases but does not cover `ldsa-website.pages.dev` or a future production custom domain.
+8. Re-run the `core_development` deployment workflow and confirm the post-deployment contract check passes.
+9. Open the preview in a signed-out private browser and confirm Access blocks it, then sign in as an approved tester and confirm it opens.
 
-The automated deployment check must also be allowed through Access. Create a Cloudflare Access service token and an Allow policy for it, then add its values as GitHub repository secrets named `CF_ACCESS_CLIENT_ID` and `CF_ACCESS_CLIENT_SECRET`. The checker sends those credentials only as Cloudflare Access request headers. Do this at the same time as enabling the preview access policy; the secrets are unnecessary while previews are public.
+The checker sends the service credentials only in Cloudflare Access request headers. Never put either value in repository variables, source files, logs, or chat. Record the token expiry and rotate the GitHub secrets before it expires.
 
 Cloudflare preview deployments should also send `X-Robots-Tag: noindex`. Verify the live response header before sharing the preview URL.
 

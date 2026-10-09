@@ -10,4 +10,4 @@
 | YouTube iframe                                | Keep           | Privacy-enhanced `youtube-nocookie.com` embed with lazy loading |
 | Generated animation observer                  | Remove         | Static CSS and reduced-motion support                           |
 
-No Google Tag Manager, Meta Pixel or LinkedIn Insight Tag was found in the public rendered pages. Unbounce Script Manager remains an account-only audit item.
+No Google Tag Manager, Meta Pixel or LinkedIn Insight Tag was found in the public rendered pages. The suspended Unbounce account prevents inspection of disabled or unapplied Script Manager entries. Publicly executed scripts have been audited; non-public account configuration is an accepted limitation.

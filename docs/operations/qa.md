@@ -28,6 +28,9 @@ Record the tester, date, deployed commit and result for each test. Do not use re
 - [ ] `/jobs/`
 - [ ] `/curriculum/` returns a 301 to `/starters-academy/#curriculum`.
 - [ ] `/faq/` returns a 301 to `/starters-academy/#faq`.
+- [ ] `/comms-associate-position/` returns a 301 to `/about-us/`.
+- [ ] `/pythonzerotohero/` returns a 301 to `/prep-course/`.
+- [ ] Recovered `*-form_confirmation.html` routes redirect to their maintained destinations.
 - [ ] An unknown route renders the custom 404 page.
 
 ## Responsive and browser coverage
@@ -62,6 +65,8 @@ Use a unique controlled address for each case, then verify the subscriber in the
 - [ ] Prep form reaches the Prep Course group and triggers the expected confirmation/workflow.
 - [ ] Invalid email feedback is understandable and keyboard accessible.
 - [ ] A successful submission shows or redirects to the intended confirmation state.
+
+HTTP checks prove that the public Flodesk scripts and POST endpoints exist, but only the Flodesk subscriber record can prove segment assignment and automation delivery. Do not mark this section complete from browser rendering alone.
 
 ## Production cutover checks
 

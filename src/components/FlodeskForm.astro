@@ -56,15 +56,22 @@ const rootSelector = `.flodesk-${form.id}`;
 </section>
 
 <script is:inline define:vars={{ formId: form.id, rootSelector }}>
-  (function (w, d, t, h, s, n) {
+  (function (w, d, t, n) {
     w.FlodeskObject = n;
     var fn = function () { (w[n].q = w[n].q || []).push(arguments); };
     w[n] = w[n] || fn;
     var first = d.getElementsByTagName(t)[0];
-    var script = d.createElement(t);
-    script.async = true;
-    script.src = h + s + '.js?v=' + Math.floor(Date.now() / 120000);
-    first.parentNode.insertBefore(script, first);
-  })(window, document, 'script', 'https://assets.flodesk.com', '/universal', 'fd');
+    var version = '?v=' + Math.floor(Date.now() / 120000) * 60;
+    var modern = d.createElement(t);
+    modern.async = true;
+    modern.type = 'module';
+    modern.src = 'https://assets.flodesk.com/universal.mjs' + version;
+    first.parentNode.insertBefore(modern, first);
+    var legacy = d.createElement(t);
+    legacy.async = true;
+    legacy.noModule = true;
+    legacy.src = 'https://assets.flodesk.com/universal.js' + version;
+    first.parentNode.insertBefore(legacy, first);
+  })(window, document, 'script', 'fd');
   window.fd('form:handle', { formId: formId, rootEl: rootSelector });
 </script>

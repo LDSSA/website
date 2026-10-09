@@ -124,6 +124,13 @@ for (const [path, destination] of [
   ["/faq/", "/starters-academy/#faq"],
   ["/home", "/"],
   ["/index.html", "/"],
+  ["/comms-associate-position/", "/about-us/"],
+  ["/pythonzerotohero/", "/prep-course/"],
+  ["/a-form_confirmation.html", "/"],
+  ["/b-form_confirmation.html", "/"],
+  ["/d-form_confirmation.html", "/"],
+  ["/comms-associate-position/a-form_confirmation.html", "/about-us/"],
+  ["/curriculum/a-form_confirmation.html", "/starters-academy/"],
 ]) {
   try {
     const response = await request(path);

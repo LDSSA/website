@@ -15,4 +15,6 @@ The general form uses these Flodesk preference values:
 | `option1` | Lisbon Data Science Starters Academy |
 | `option2` | Data Science Prep Course             |
 
-The Flodesk universal script progressively enhances the native forms. The native `POST` action remains present as a fallback. A real submission must be checked against the expected Flodesk segment and automation before production cutover; rendering and HTTP-level checks cannot prove subscriber routing inside the Flodesk account.
+The Flodesk universal script progressively enhances the native forms. The component mirrors the public embed's current module/legacy loader pair, while the native `POST` action remains present as a fallback. On 2026-10-09 both public runtime files returned HTTP 200 and all three endpoints returned HTTP 405 with `Allow: POST`, confirming that the integration resources and form handlers exist without creating test subscribers.
+
+A real submission must still be checked against the expected Flodesk segment and automation before production cutover; rendering and HTTP-level checks cannot prove subscriber routing inside the Flodesk account. Use separate controlled LDSA addresses for each routing case in the QA runbook.

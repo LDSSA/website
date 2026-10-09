@@ -2,6 +2,8 @@
 
 The official website of the [Lisbon Data Science Academy](https://www.lisbondatascience.org/). It is a static [Astro](https://astro.build/) site designed for Cloudflare Pages and maintained through the `feature/* → dev → main` workflow.
 
+The hosting and delivery architecture uses free tooling and service tiers. Domain registration and renewal are the only expected website infrastructure cost.
+
 - Production: `https://www.lisbondatascience.org/` (kept on Unbounce until the migration acceptance tests pass)
 - Candidate production: `https://ldsa-website.pages.dev/`
 - Integration preview: `https://dev.ldsa-website.pages.dev/`
@@ -57,7 +59,7 @@ scripts/              build-time contract checks
 migration/
 ├── raw/              public rendered-source snapshot from Unbounce
 ├── scripts/          migration audit helpers
-└── *.md              inventories and decisions
+└── *.md              public-evidence audit, inventories and decisions
 docs/operations/      deployment, DNS, QA and maintenance runbooks
 .github/workflows/    CI and deployment automation
 ```
