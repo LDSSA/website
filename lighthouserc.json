@@ -9,7 +9,7 @@
         "http://localhost/about-us/",
         "http://localhost/jobs/"
       ],
-      "numberOfRuns": 1
+      "numberOfRuns": 3
     },
     "assert": {
       "assertions": {
