@@ -14,7 +14,12 @@ If Wrangler is authenticated locally, the equivalent command is:
 npx wrangler pages project create ldsa-website --production-branch main
 ```
 
-The build output is `dist`. The GitHub deployment workflow sends `core_development`, `dev` and `main` with their real branch names, so Cloudflare creates stable branch aliases. The intended test URL is `https://dev.ldsa-website.pages.dev/`; the temporary migration branch uses its own preview alias.
+The build output is `dist`. The GitHub deployment workflow sends only `dev` and `main` with their real branch names. The two operational environments are:
+
+- development: `dev`, at `https://dev.ldsa-website.pages.dev/`, protected by Cloudflare Access;
+- production: `main`, at `https://ldsa-website.pages.dev/` and, after cutover, the public custom domain.
+
+Feature branches never deploy to Cloudflare. Their changes reach the development environment only after a pull request is merged into `dev`.
 
 After uploading, the workflow tests the immutable deployment URL and confirms its routes, redirects, custom 404 page, security headers, indexing policy, branch and commit. It records the branch and commit in a non-cached `deployment.json` file generated only in CI.
 
@@ -36,11 +41,11 @@ In Cloudflare Zero Trust, protect preview deployments with Access. Complete the 
 1. Open **Zero Trust → Access controls → Service credentials → Service Tokens**.
 2. Create `github-actions-ldsa-preview-smoke`, choose an appropriate expiry, and copy its Client ID and Client Secret once.
 3. In GitHub repository Actions secrets, add the values as `CF_ACCESS_CLIENT_ID` and `CF_ACCESS_CLIENT_SECRET`.
-4. Open **Workers & Pages → ldsa-website → Settings → General** and select **Enable access policy**.
-5. Manage the generated Access application and keep its interactive Allow policy limited to the LDSA Cloudflare account members or explicitly approved tester emails.
+4. Open **Workers & Pages → ldsa-website → Settings → General**. If **Preview access** says deployments are restricted by a Cloudflare Access policy, protection is already enabled; select **Manage**. Otherwise, select **Enable access policy**.
+5. In the generated `ldsa-website - Cloudflare Pages` application, keep the destination `*.ldsa-website.pages.dev`. Edit the interactive Allow policy so its Include rule contains only exact approved tester email addresses, or `Emails ending in @lisbondatascience.org` if every mailbox on that domain should have access. Remove `All authenticated users` or `Everyone`.
 6. Add a second policy with action **Service Auth**, include only the `github-actions-ldsa-preview-smoke` service token, and save it. New Zero Trust organizations use strict service-token authentication, so an ordinary Allow policy is insufficient for CI.
 7. Confirm the policy wildcard covers preview aliases but does not cover `ldsa-website.pages.dev` or a future production custom domain.
-8. Re-run the `core_development` deployment workflow and confirm the post-deployment contract check passes.
+8. Re-run the `dev` deployment workflow and confirm the post-deployment contract check passes.
 9. Open the preview in a signed-out private browser and confirm Access blocks it, then sign in as an approved tester and confirm it opens.
 
 The checker sends the service credentials only in Cloudflare Access request headers. Never put either value in repository variables, source files, logs, or chat. Record the token expiry and rotate the GitHub secrets before it expires.
@@ -63,7 +68,7 @@ Use the Cloudflare dashboard to monitor:
 
 Create two GitHub environments:
 
-- `preview`: no approval requirement; used by `core_development` and `dev`.
+- `preview`: no approval requirement; restricted to `dev`.
 - `production`: require an LDSA maintainer approval and restrict deployments to `main`.
 
 The required approval provides a final gate after online acceptance testing and before production deployment. It does not change DNS; domain cutover remains a separate controlled step.

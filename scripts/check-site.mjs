@@ -111,6 +111,19 @@ if (!existsSync(join(output, "sitemap-index.xml")))
 if (!existsSync(join(output, "_headers")))
   errors.push("Missing Cloudflare headers configuration");
 
+const deployWorkflow = readFileSync(
+  join(root, ".github/workflows/deploy.yml"),
+  "utf8",
+);
+const ciWorkflow = readFileSync(join(root, ".github/workflows/ci.yml"), "utf8");
+
+if (!deployWorkflow.includes("branches: [dev, main]"))
+  errors.push("Deployment workflow must deploy only dev and main");
+if (!ciWorkflow.includes("branches: [dev]"))
+  errors.push("Push CI workflow must run on dev");
+if (/core_development/.test(`${deployWorkflow}\n${ciWorkflow}`))
+  errors.push("Temporary feature branches must not be workflow triggers");
+
 if (errors.length > 0) {
   console.error(`Site contract checks failed:\n- ${errors.join("\n- ")}`);
   process.exit(1);

@@ -33,9 +33,8 @@ npm run format:check
 - `feature/*`: one focused change; open a pull request into `dev`.
 - `dev`: integration branch and protected Cloudflare preview.
 - `main`: production branch. Merging here publishes the production build.
-- `core_development`: temporary migration branch; its deployment is a preview.
 
-Pull requests into `dev` or `main` run formatting, type checks, a clean production build, site contract checks and Lighthouse audits. Pushes to `core_development`, `dev`, or `main` run the same build checks before deploying through the Cloudflare Wrangler GitHub Action.
+Pull requests into `dev` or `main` run formatting, type checks, a clean production build, site contract checks and Lighthouse audits. Feature branches never deploy to Cloudflare. A push to `dev` deploys the private development preview, while a push to `main` deploys production through the Cloudflare Wrangler GitHub Action.
 
 The deployment workflow requires:
 
