@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; connect-src 'self' https://*.flodesk.com https://assets.flodesk.com; form-action https://form.flodesk.com; frame-ancestors 'none'; frame-src https://www.youtube-nocookie.com; img-src 'self' data: https://*.flodesk.com https://assets.flodesk.com; object-src 'none'; script-src 'self' 'unsafe-inline' https://assets.flodesk.com; style-src 'self' 'unsafe-inline' https://assets.flodesk.com; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; connect-src 'self' https://*.flodesk.com https://assets.flodesk.com; form-action https://form.flodesk.com; frame-ancestors 'none'; frame-src https://www.youtube-nocookie.com; img-src 'self' data: https://*.flodesk.com https://assets.flodesk.com; object-src 'none'; script-src 'self' 'unsafe-inline' https://assets.flodesk.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://assets.flodesk.com; upgrade-insecure-requests
   Permissions-Policy: camera=(), geolocation=(), microphone=()
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff

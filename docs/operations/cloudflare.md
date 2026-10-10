@@ -54,7 +54,19 @@ Cloudflare preview deployments should also send `X-Robots-Tag: noindex`. Verify 
 
 ## 4. Enable observability
 
-Enable Cloudflare Web Analytics for the Pages project. After the first real visits, verify page views and Core Web Vitals appear. Keep analytics privacy-first and do not add visitor profiling scripts without a separate review.
+The repository CSP permits Cloudflare's `https://static.cloudflareinsights.com` beacon. Its `connect-src 'self'` directive permits the automatically injected Pages beacon to report through the site's `/cdn-cgi/rum` endpoint.
+
+Enable Web Analytics without adding a paid product:
+
+1. Open **Workers & Pages → ldsa-website → Metrics**.
+2. Under **Web Analytics**, select **Enable**.
+3. Deploy `dev` again; Pages adds the beacon on the next deployment.
+4. Sign in to the protected preview and open the browser developer tools.
+5. Confirm the page loads `beacon.min.js` without a Content Security Policy error.
+6. Confirm a request is sent to `/cdn-cgi/rum` after the page loads or when the tab is hidden.
+7. Open **Web Analytics** in Cloudflare and confirm the controlled visit and Core Web Vitals appear.
+
+Keep analytics privacy-first and do not add visitor profiling scripts without a separate review.
 
 Use the Cloudflare dashboard to monitor:
 

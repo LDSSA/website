@@ -108,8 +108,13 @@ if (!allHtml.includes("https://assets.flodesk.com/universal.js"))
 
 if (!existsSync(join(output, "sitemap-index.xml")))
   errors.push("Missing generated sitemap index");
-if (!existsSync(join(output, "_headers")))
+if (!existsSync(join(output, "_headers"))) {
   errors.push("Missing Cloudflare headers configuration");
+} else {
+  const headers = readFileSync(join(output, "_headers"), "utf8");
+  if (!headers.includes("https://static.cloudflareinsights.com"))
+    errors.push("CSP does not permit the Cloudflare Web Analytics beacon");
+}
 
 const deployWorkflow = readFileSync(
   join(root, ".github/workflows/deploy.yml"),

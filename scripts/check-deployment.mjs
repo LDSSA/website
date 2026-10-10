@@ -93,6 +93,16 @@ if (!homeResponse || homeResponse.status !== 200) {
     }
   }
 
+  const contentSecurityPolicy =
+    homeResponse.headers.get("content-security-policy") ?? "";
+  if (
+    !contentSecurityPolicy.includes("https://static.cloudflareinsights.com")
+  ) {
+    errors.push(
+      "content-security-policy does not permit the Cloudflare Web Analytics beacon.",
+    );
+  }
+
   const robotsHeader = homeResponse.headers.get("x-robots-tag") ?? "";
   if (expectNoindex && !/\bnoindex\b/i.test(robotsHeader)) {
     errors.push("Preview deployment is missing X-Robots-Tag: noindex.");

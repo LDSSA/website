@@ -54,6 +54,13 @@ Test at 320, 375, 390, 768, 1024, 1440 and 1920 CSS pixels.
 - [ ] YouTube video loads and can be operated by keyboard.
 - [ ] Job submission guide opens correctly.
 
+## Web Analytics
+
+- [ ] Cloudflare Pages injects `https://static.cloudflareinsights.com/beacon.min.js`.
+- [ ] The browser console contains no Content Security Policy error for the beacon.
+- [ ] The beacon reports through `/cdn-cgi/rum`.
+- [ ] Cloudflare Web Analytics records a controlled preview visit and Core Web Vitals.
+
 ## Flodesk end-to-end tests
 
 Use a unique controlled address for each case, then verify the subscriber in the Flodesk account.
