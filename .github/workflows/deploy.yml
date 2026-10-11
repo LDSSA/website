@@ -30,6 +30,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Verify production build
+        env:
+          CLOUDFLARE_WEB_ANALYTICS_TOKEN: ${{ vars.CLOUDFLARE_WEB_ANALYTICS_TOKEN }}
         run: npm run check
       - name: Record deployment identity
         run: node scripts/write-deployment-metadata.mjs dist "$GITHUB_SHA" "$GITHUB_REF_NAME"
@@ -49,6 +51,7 @@ jobs:
           EXPECTED_COMMIT: ${{ github.sha }}
           EXPECTED_BRANCH: ${{ github.ref_name }}
           EXPECT_NOINDEX: ${{ github.ref != 'refs/heads/main' }}
+          EXPECT_ANALYTICS: ${{ vars.CLOUDFLARE_WEB_ANALYTICS_TOKEN != '' }}
           CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
           CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
         run: npm run check:deployment

@@ -14,7 +14,7 @@ GitHub repository
                                               └─ privacy-enhanced YouTube embed
 ```
 
-The site is generated at build time by Astro and deployed as static files. There is no application server, database, runtime JavaScript framework or server-side session. Cloudflare provides TLS, CDN caching, preview deployments, Access control, deployment history and Web Analytics.
+The site is generated at build time by Astro and deployed as static files. There is no application server, database, runtime JavaScript framework or server-side session. Cloudflare provides TLS, CDN caching, preview deployments, Access control, deployment history and production Web Analytics.
 
 All migration infrastructure uses free services and open-source tooling: Astro, Node.js, npm, GitHub Actions within the repository's included allowance, Cloudflare Pages, Cloudflare Web Analytics, and Cloudflare Access Free for the small LDSA testing group. The domain registration/renewal remains the only unavoidable website infrastructure cost. Do not add a paid hosting, build, monitoring, analytics, testing, or CDN dependency without an explicit architecture decision.
 
@@ -40,7 +40,7 @@ This separation prevents the website from becoming a second, stale source of tru
 
 Flodesk form identifiers, endpoints, preference values, configuration and runtime bundles are treated as public integration contracts and covered by the production-build test. A successful browser submission still requires Flodesk account verification because only Flodesk can prove which subscriber group and automation received the address.
 
-External destinations use normal links. The YouTube video uses the privacy-enhanced domain and lazy loading. No third-party analytics script is included in the source; Cloudflare Web Analytics is enabled at the hosting layer.
+External destinations use normal links. The YouTube video uses the privacy-enhanced domain and lazy loading. Cloudflare's project-wide automatic analytics injection is disabled because it would mix private preview traffic into production data. The layout emits the free Web Analytics beacon only when the production GitHub environment supplies `CLOUDFLARE_WEB_ANALYTICS_TOKEN`; the build adds the matching CSP origins at the same time. Preview and ordinary local builds contain neither the beacon nor its CSP permissions.
 
 ## Security and privacy
 

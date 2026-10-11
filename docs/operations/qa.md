@@ -56,10 +56,12 @@ Test at 320, 375, 390, 768, 1024, 1440 and 1920 CSS pixels.
 
 ## Web Analytics
 
-- [ ] Cloudflare Pages injects `https://static.cloudflareinsights.com/beacon.min.js`.
-- [ ] The browser console contains no Content Security Policy error for the beacon.
-- [ ] The beacon reports through `/cdn-cgi/rum`.
-- [ ] Cloudflare Web Analytics records a controlled preview visit and Core Web Vitals.
+- [x] The private `dev` deployment contains no `beacon.min.js` request.
+- [x] The private `dev` deployment contains no `/cdn-cgi/rum` request.
+- [x] Cloudflare account-level request analytics remains available.
+- [ ] Production loads `https://static.cloudflareinsights.com/beacon.min.js` after its environment token is configured.
+- [ ] Production reports successfully without a Content Security Policy error.
+- [ ] Cloudflare Web Analytics records a controlled production visit and Core Web Vitals.
 
 ## Flodesk end-to-end tests
 

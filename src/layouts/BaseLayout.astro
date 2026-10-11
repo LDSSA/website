@@ -19,6 +19,7 @@ const {
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const pageTitle = title === 'Lisbon Data Science Academy' ? title : `${title} · Lisbon Data Science Academy`;
 const socialImage = new URL(image, Astro.site);
+const analyticsToken = import.meta.env.CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim();
 ---
 
 <!doctype html>
@@ -50,5 +51,12 @@ const socialImage = new URL(image, Astro.site);
       <slot />
     </main>
     <Footer />
+    {analyticsToken && (
+      <script
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: analyticsToken })}
+      ></script>
+    )}
   </body>
 </html>

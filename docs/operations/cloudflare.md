@@ -52,21 +52,20 @@ The checker sends the service credentials only in Cloudflare Access request head
 
 Cloudflare preview deployments should also send `X-Robots-Tag: noindex`. Verify the live response header before sharing the preview URL.
 
-## 4. Enable observability
+## 4. Production-only observability
 
-The repository CSP permits Cloudflare's `https://static.cloudflareinsights.com` beacon. Its `connect-src` directive permits both the site's own `/cdn-cgi/rum` endpoint and `https://cloudflareinsights.com`, which Pages preview deployments may use to submit beacon data.
+Keep the Pages project's automatic **Web Analytics** switch disabled. It applies to both `dev` and `main`, which would mix private acceptance traffic into production results.
 
-Enable Web Analytics without adding a paid product:
+After `www.lisbondatascience.org` is attached and selected as the canonical production hostname:
 
-1. Open **Workers & Pages → ldsa-website → Metrics**.
-2. Under **Web Analytics**, select **Enable**.
-3. Deploy `dev` again; Pages adds the beacon on the next deployment.
-4. Sign in to the protected preview and open the browser developer tools.
-5. Confirm the page loads `beacon.min.js` without a Content Security Policy error.
-6. Confirm a request is sent to `/cdn-cgi/rum` after the page loads or when the tab is hidden.
-7. Open **Web Analytics** in Cloudflare and confirm the controlled visit and Core Web Vitals appear.
+1. In Cloudflare **Web Analytics**, create or select the site for `www.lisbondatascience.org` using the free service.
+2. Copy its public site token. Do not use an API token or Access credential.
+3. In **GitHub → LDSSA/website → Settings → Environments → production → Environment variables**, add `CLOUDFLARE_WEB_ANALYTICS_TOKEN` with that site token.
+4. Re-run the `main` deployment. The Astro build emits the manual beacon and adds `static.cloudflareinsights.com` and `cloudflareinsights.com` only to the production artifact's CSP.
+5. Confirm production loads `beacon.min.js`, sends a successful RUM request and records the controlled visit.
+6. Confirm `dev` contains no beacon, no RUM request and no analytics CSP origins.
 
-Keep analytics privacy-first and do not add visitor profiling scripts without a separate review.
+The token is a public site identifier embedded in HTML, but keeping it in the production environment prevents accidental preview activation and centralizes configuration. Do not add visitor profiling scripts without a separate review.
 
 Use the Cloudflare dashboard to monitor:
 
@@ -87,9 +86,4 @@ The required approval provides a final gate after online acceptance testing and 
 
 ## 6. Custom domains
 
-Only after [the QA checklist](qa.md) passes, add:
-
-- `www.lisbondatascience.org` as the production custom domain;
-- `lisbondatascience.org`, redirected permanently to `https://www.lisbondatascience.org/`.
-
-Follow [the DNS runbook](dns.md). Do not alter mail or domain-verification records.
+Only after [the QA checklist](qa.md) passes, add `www.lisbondatascience.org` as the production custom domain. Authoritative DNS remains at Namecheap: change the existing `www` CNAME only after Cloudflare Pages has registered the hostname, and configure Namecheap's apex URL Redirect Record as a permanent `301` to `https://www.lisbondatascience.org/`. Follow [the DNS runbook](dns.md). Do not alter mail or domain-verification records.

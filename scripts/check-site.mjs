@@ -3,6 +3,9 @@ import { join, relative } from "node:path";
 
 const root = new URL("../", import.meta.url).pathname;
 const output = join(root, "dist");
+const expectAnalytics = Boolean(
+  process.env.CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim(),
+);
 const errors = [];
 
 const walk = (directory) =>
@@ -112,11 +115,26 @@ if (!existsSync(join(output, "_headers"))) {
   errors.push("Missing Cloudflare headers configuration");
 } else {
   const headers = readFileSync(join(output, "_headers"), "utf8");
-  if (!headers.includes("https://static.cloudflareinsights.com"))
-    errors.push("CSP does not permit the Cloudflare Web Analytics beacon");
-  if (!headers.includes("https://cloudflareinsights.com"))
-    errors.push("CSP does not permit Cloudflare Web Analytics submissions");
+  for (const origin of [
+    "https://static.cloudflareinsights.com",
+    "https://cloudflareinsights.com",
+  ]) {
+    if (expectAnalytics && !headers.includes(origin))
+      errors.push(`Production analytics CSP is missing ${origin}`);
+    if (!expectAnalytics && headers.includes(origin))
+      errors.push(`Analytics-free build unexpectedly permits ${origin}`);
+  }
 }
+
+const analyticsScript = "https://static.cloudflareinsights.com/beacon.min.js";
+if (expectAnalytics && !allHtml.includes(analyticsScript))
+  errors.push(
+    "Production build is missing the Cloudflare Web Analytics beacon",
+  );
+if (!expectAnalytics && allHtml.includes(analyticsScript))
+  errors.push(
+    "Analytics-free build unexpectedly contains the analytics beacon",
+  );
 
 const deployWorkflow = readFileSync(
   join(root, ".github/workflows/deploy.yml"),

@@ -41,6 +41,7 @@ The deployment workflow requires:
 - GitHub secret `CLOUDFLARE_API_TOKEN`, scoped to edit Cloudflare Pages.
 - GitHub secret `CLOUDFLARE_ACCOUNT_ID`.
 - Optional GitHub variable `CLOUDFLARE_PAGES_PROJECT`; it defaults to `ldsa-website`.
+- Production-environment variable `CLOUDFLARE_WEB_ANALYTICS_TOKEN` after the final public hostname is registered in Cloudflare Web Analytics. Preview builds deliberately omit it.
 
 See [the Cloudflare runbook](docs/operations/cloudflare.md) for project creation, preview access, analytics and domain cutover.
 
@@ -81,7 +82,7 @@ The homepage also preserves the `option1` and `option2` interest values used by 
 
 ## DNS and production safety
 
-Do not change the public DNS or cancel Unbounce until the Cloudflare preview passes the acceptance tests. Email-related MX and TXT records are outside the website migration and must remain intact. The captured DNS baseline and cutover sequence are in [the DNS runbook](docs/operations/dns.md).
+The selected cutover keeps authoritative DNS at Namecheap: `www` will become a CNAME to Pages and the apex will use Namecheap's permanent URL redirect to `www`. Email-related MX and TXT records remain untouched. The captured baseline, exact cutover and rollback sequence are in [the DNS runbook](docs/operations/dns.md).
 
 ## Contributing
 

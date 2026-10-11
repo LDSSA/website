@@ -3,6 +3,7 @@ const aliasArgument = process.env.DEPLOYMENT_ALIAS_URL;
 const expectedCommit = process.env.EXPECTED_COMMIT?.toLowerCase();
 const expectedBranch = process.env.EXPECTED_BRANCH;
 const expectNoindex = process.env.EXPECT_NOINDEX === "true";
+const expectAnalytics = process.env.EXPECT_ANALYTICS === "true";
 const errors = [];
 
 if (!baseArgument) {
@@ -95,17 +96,25 @@ if (!homeResponse || homeResponse.status !== 200) {
 
   const contentSecurityPolicy =
     homeResponse.headers.get("content-security-policy") ?? "";
-  if (
-    !contentSecurityPolicy.includes("https://static.cloudflareinsights.com")
-  ) {
-    errors.push(
-      "content-security-policy does not permit the Cloudflare Web Analytics beacon.",
-    );
+  for (const origin of [
+    "https://static.cloudflareinsights.com",
+    "https://cloudflareinsights.com",
+  ]) {
+    if (expectAnalytics && !contentSecurityPolicy.includes(origin)) {
+      errors.push(`Production analytics CSP is missing ${origin}.`);
+    }
+    if (!expectAnalytics && contentSecurityPolicy.includes(origin)) {
+      errors.push(`Analytics-free deployment unexpectedly permits ${origin}.`);
+    }
   }
-  if (!contentSecurityPolicy.includes("https://cloudflareinsights.com")) {
-    errors.push(
-      "content-security-policy does not permit Cloudflare Web Analytics submissions.",
-    );
+
+  const homeHtml = await homeResponse.clone().text();
+  const analyticsScript = "https://static.cloudflareinsights.com/beacon.min.js";
+  if (expectAnalytics && !homeHtml.includes(analyticsScript)) {
+    errors.push("Production deployment is missing the analytics beacon.");
+  }
+  if (!expectAnalytics && homeHtml.includes(analyticsScript)) {
+    errors.push("Analytics-free deployment unexpectedly contains the beacon.");
   }
 
   const robotsHeader = homeResponse.headers.get("x-robots-tag") ?? "";
