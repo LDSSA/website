@@ -1,0 +1,29 @@
+---
+import { navigation, socialLinks } from '../data/site';
+---
+
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div>
+      <img class="footer-logo" src="/images/ldsa-logo.png" width="178" height="70" alt="" />
+      <p>A volunteer-run, non-profit learning community helping people enter data science.</p>
+    </div>
+    <div>
+      <h2>Explore</h2>
+      <nav aria-label="Footer">
+        {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+    </div>
+    <div>
+      <h2>Connect</h2>
+      <a href="mailto:info@lisbondatascience.org">info@lisbondatascience.org</a>
+      <div class="social-links">
+        {socialLinks.map((item) => <a href={item.href} target="_blank" rel="noreferrer">{item.label}<span class="sr-only"> (opens in a new tab)</span></a>)}
+      </div>
+    </div>
+  </div>
+  <div class="shell footer-bottom">
+    <span>© {new Date().getFullYear()} Lisbon Data Science Academy</span>
+    <span>Built in the open by the LDSA community.</span>
+  </div>
+</footer>

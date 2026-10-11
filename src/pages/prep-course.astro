@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FlodeskForm from '../components/FlodeskForm.astro';
+import FaqList from '../components/FaqList.astro';
+import { externalLinks, prepFaq } from '../data/site';
+---
+
+<BaseLayout
+  title="Data Science Prep Course"
+  description="A free, online course covering Python, NumPy, Git, the command line and linear algebra foundations for the LDSA Starters Academy."
+  image="/images/data-science.png"
+>
+  <header class="page-hero">
+    <div class="shell">
+      <p class="eyebrow">Data Science Prep Course</p>
+      <h1>Build the foundations to start your data journey.</h1>
+      <p>A free, fully online course for beginners. Learn Python, NumPy, Git, the command line and essential linear algebra with support from the LDSA community.</p>
+      <a class="button" href={externalLinks.prepCourse} target="_blank" rel="noreferrer">See the current course details<span class="sr-only"> (opens in a new tab)</span></a>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="shell split">
+      <div class="split-copy">
+        <p class="eyebrow">Start from zero</p>
+        <h2>Designed for absolute beginners.</h2>
+        <p>The Prep Course teaches the practical programming and software foundations expected when applying to the Starters Academy. It is remote, hands-on and paced over several weeks.</p>
+        <p>New learning units arrive regularly, with exercises, instructors to ask for help and a final project that puts the pieces together.</p>
+      </div>
+      <div class="image-frame"><img src="/images/bootcamp.JPG" width="1170" height="879" alt="An LDSA instructor presenting to learners" /></div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="shell">
+      <div class="section-heading"><div><p class="eyebrow">What you will learn</p><h2>The toolkit before data science.</h2></div><p>These foundations help you work independently, understand course materials and tackle the Starters Academy admission exercise with confidence.</p></div>
+      <div class="card-grid">
+        <article class="card"><span class="card-number">01</span><h3>Python programming</h3><p>Variables, control flow, functions, collections, modules and object-oriented basics.</p></article>
+        <article class="card"><span class="card-number">02</span><h3>NumPy & linear algebra</h3><p>Work with arrays and translate essential mathematical ideas into code.</p></article>
+        <article class="card"><span class="card-number">03</span><h3>Developer tools</h3><p>Use the Unix command line, Git, GitHub, editors, notebooks and Python packaging.</p></article>
+      </div>
+      <div class="notice" style="margin-top: 2rem"><strong>Course dates change by edition.</strong> The LDSA wiki holds the current schedule and application information.</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell programme">
+      <div class="programme-image"><img src="/images/hackathon.JPG" width="1200" height="900" alt="LDSA learners working together at tables" loading="lazy" /></div>
+      <div class="programme-steps">
+        <div><p class="eyebrow">How it works</p><h2>Build confidence one week at a time.</h2></div>
+        <article class="programme-step"><span>Weeks 1–10</span><h3>Learning units and exercises</h3><p>Study new material, practise with auto-graded exercises and ask instructors or peers when you get stuck.</p></article>
+        <article class="programme-step"><span>Final stage</span><h3>Put it into a project</h3><p>Combine your new skills in a practical piece of software you can explain and be proud of.</p></article>
+        <a class="button button-dark" href={externalLinks.prepRepository} target="_blank" rel="noreferrer">Browse the open-source course<span class="sr-only"> (opens in a new tab)</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="faq">
+    <div class="shell">
+      <div class="section-heading"><div><p class="eyebrow">Questions</p><h2>Prep Course FAQ</h2></div><p>The official wiki contains the latest schedule and admissions information for each edition.</p></div>
+      <FaqList items={prepFaq} />
+    </div>
+  </section>
+
+  <FlodeskForm kind="prep" heading="Get Prep Course news" description="Join the dedicated list for dates, application information and announcements about the next edition." />
+</BaseLayout>

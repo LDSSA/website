@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FlodeskForm from '../components/FlodeskForm.astro';
+import { externalLinks } from '../data/site';
+---
+
+<BaseLayout
+  title="Lisbon Data Science Academy"
+  description="A volunteer-run, non-profit learning community helping people build the practical skills to begin a career in data science."
+>
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <p class="eyebrow">Learn together. Build in public.</p>
+        <h1>Data science starts with community.</h1>
+        <p class="lede">LDSA is a volunteer-run, non-profit academy. We help motivated learners build the practical skills and support network needed to enter data science.</p>
+        <div class="hero-actions">
+          <a class="button" href="/starters-academy/">Explore the Academy</a>
+          <a class="button button-outline" href={externalLinks.wiki} target="_blank" rel="noreferrer">Read the wiki<span class="sr-only"> (opens in a new tab)</span></a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="/images/community.jpeg" width="1200" height="900" alt="LDSA students and volunteers gathered at a community event" fetchpriority="high" />
+        <p class="hero-note">100% powered by volunteers</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-heading">
+        <div><p class="eyebrow">Why LDSA</p><h2>Serious learning, generous people.</h2></div>
+        <p>Data science is easier to learn when you are surrounded by people solving the same hard problems. LDSA combines open materials, demanding projects, experienced mentors and a community that stays with you.</p>
+      </div>
+      <div class="card-grid">
+        <article class="card"><span class="card-number">01 / PRACTICE</span><h3>Learn by doing</h3><p>Work through focused learning units, exercises, hackathons and an end-to-end capstone project.</p></article>
+        <article class="card"><span class="card-number">02 / SUPPORT</span><h3>Never learn alone</h3><p>Ask questions, review work and grow with peers, instructors and mentors from the data community.</p></article>
+        <article class="card"><span class="card-number">03 / OPENNESS</span><h3>Knowledge stays open</h3><p>Our learning materials are public, so anyone can use them and contribute improvements.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="shell split">
+      <div class="image-frame"><img src="/images/data-science.png" width="1200" height="900" alt="LDSA data science learning session" loading="lazy" /></div>
+      <div class="split-copy">
+        <p class="eyebrow">Choose your starting point</p>
+        <h2>Two courses. One learning path.</h2>
+        <p>If Python and software development are new to you, begin with the free Prep Course. If you already have those foundations, the Starters Academy takes you through the core skills of an entry-level data scientist.</p>
+      </div>
+    </div>
+    <div class="shell card-grid" style="margin-top: 3rem">
+      <article class="card course-card"><span class="tag">Foundation</span><h3>Data Science Prep Course</h3><p>Build confidence with Python, NumPy, Git, the command line and linear algebra.</p><a class="text-link" href="/prep-course/">Start with the Prep Course →</a></article>
+      <article class="card course-card"><span class="tag">Core programme</span><h3>Data Science Starters Academy</h3><p>Develop job-ready foundations through structured study, team hackathons and a capstone project.</p><a class="text-link" href="/starters-academy/">Explore the Starters Academy →</a></article>
+      <article class="card course-card"><span class="tag">For the community</span><h3>Share a data science role</h3><p>Reach the LDSA community with a relevant opportunity. Publishing a job is free for organisations and applicants.</p><a class="text-link" href="/jobs/">Offer a job →</a></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell split">
+      <div class="split-copy">
+        <p class="eyebrow">A glimpse of the Academy</p>
+        <h2>Six months of work and fun in 150 seconds.</h2>
+        <p>See how the first LDSA batch learned, built projects and became a community.</p>
+      </div>
+      <iframe class="video" src="https://www.youtube-nocookie.com/embed/DTXdcyXLWjQ?rel=0" title="Remembering the first Lisbon Data Science Academy batch" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <FlodeskForm
+    kind="general"
+    heading="Hear when admissions open"
+    description="Choose the courses you care about and we’ll send the relevant LDSA announcements to your inbox."
+  />
+</BaseLayout>

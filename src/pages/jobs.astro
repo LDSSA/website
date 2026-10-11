@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { externalLinks } from '../data/site';
+---
+
+<BaseLayout
+  title="Share a data science job"
+  description="Submit a relevant job opportunity to the Lisbon Data Science Academy community for free."
+  image="/images/hackathon.JPG"
+>
+  <header class="page-hero">
+    <div class="shell">
+      <p class="eyebrow">Jobs for the LDSA community</p>
+      <h1>Reach data science talent, for free.</h1>
+      <p>Share a relevant role with learners and alumni who have practised solving real data problems in a demanding, collaborative programme.</p>
+      <a class="button" href={externalLinks.jobs} target="_blank" rel="noreferrer">Read the publishing guide<span class="sr-only"> (opens in a new tab)</span></a>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-heading"><div><p class="eyebrow">How it works</p><h2>A simple, community-first process.</h2></div><p>LDSA’s wiki explains the current submission format and publishing process. There is no charge to the organisation or applicant.</p></div>
+      <div class="card-grid">
+        <article class="card"><span class="card-number">01 / CHECK</span><h3>Confirm the role is relevant</h3><p>Data science, analytics, machine learning and related early-career roles are the best fit for the community.</p></article>
+        <article class="card"><span class="card-number">02 / PREPARE</span><h3>Follow the wiki template</h3><p>Include a clear role description, location or remote policy, requirements, compensation where possible, and how to apply.</p></article>
+        <article class="card"><span class="card-number">03 / SHARE</span><h3>Submit for publication</h3><p>Follow the contact route in the guide so volunteers can review and share the opportunity.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="shell split">
+      <div class="image-frame"><img src="/images/hackathon.JPG" width="1200" height="900" alt="LDSA learners collaborating during a hackathon" /></div>
+      <div class="split-copy">
+        <p class="eyebrow">Why this community</p>
+        <h2>Learners practise the whole problem.</h2>
+        <p>LDSA projects involve ambiguous data, teamwork, communication and delivery. The community includes career changers, working professionals and volunteers from across the data ecosystem.</p>
+        <a class="text-link" href={externalLinks.jobs} target="_blank" rel="noreferrer">Start with the job submission guide →<span class="sr-only"> (opens in a new tab)</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
