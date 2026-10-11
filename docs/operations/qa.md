@@ -79,7 +79,7 @@ HTTP checks prove that the public Flodesk scripts and POST endpoints exist, but 
 
 ## Production cutover checks
 
-- [ ] `https://lisbondatascience.org/` redirects to the canonical `www` HTTPS hostname.
+- [ ] Existing apex forwarding still sends plain-HTTP requests to the canonical `www` HTTPS hostname; its inherited HTTPS and path-preservation limitations are recorded for the future Cloudflare DNS migration.
 - [ ] `https://www.lisbondatascience.org/` serves the expected commit.
 - [ ] Canonical and Open Graph URLs use the production hostname.
 - [ ] `robots.txt` and `sitemap-index.xml` return 200.

@@ -86,4 +86,4 @@ The required approval provides a final gate after online acceptance testing and 
 
 ## 6. Custom domains
 
-Only after [the QA checklist](qa.md) passes, add `www.lisbondatascience.org` as the production custom domain. Authoritative DNS remains at Namecheap: change the existing `www` CNAME only after Cloudflare Pages has registered the hostname, and configure Namecheap's apex URL Redirect Record as a permanent `301` to `https://www.lisbondatascience.org/`. Follow [the DNS runbook](dns.md). Do not alter mail or domain-verification records.
+Only after [the QA checklist](qa.md) passes, add `www.lisbondatascience.org` as the production custom domain. Authoritative DNS remains at Namecheap: change the existing `www` CNAME only after Cloudflare Pages has registered the hostname, and leave the existing apex forwarding unchanged. Follow [the DNS runbook](dns.md). Do not alter apex, mail or domain-verification records.
