@@ -23,13 +23,22 @@ No subscriber addresses or other personal data are stored in this repository.
 - `main` is the production branch and `dev` is the private integration branch.
 - Production DNS remains authoritative at Namecheap.
 - `www.lisbondatascience.org` will point to `ldsa-website.pages.dev` only after the custom hostname is registered in the Pages dashboard.
-- Namecheap will provide a permanent apex-to-`www` redirect.
+- The existing Namecheap apex-to-`www` forwarding remains unchanged during the initial cutover.
 - Browser Web Analytics will be enabled only for production after the final hostname is active.
 - The existing Unbounce-hosted public site remains available until the DNS cutover.
+- Unbounce will be retained as a rollback target after cutover; the migration does not cancel or delete its account, project or domain association.
+
+## Production candidate
+
+- Accepted production commit: `2dfa88d460235d97e1ab4ed982c70b15a2e4c7a5`
+- Production workflow: <https://github.com/LDSSA/website/actions/runs/38138514741>
+- Result: passed on 2026-10-11
+- Public staging hostname: `https://ldsa-website.pages.dev/`
+
+The public Pages hostname returns `200`, is not protected by Access and does not send `noindex`. Immutable deployment URLs remain private and send `noindex`.
 
 ## Remaining acceptance gates
 
-- Promote the release-preparation changes from `dev` to `main` and verify the public Pages production hostname.
 - Export the complete Namecheap zone privately and record rollback values.
 - Attach `www`, complete the Namecheap cutover and verify email.
 - Enable and verify production-only Web Analytics.
