@@ -1,5 +1,6 @@
 const baseArgument = process.argv[2] ?? process.env.DEPLOYMENT_URL;
 const aliasArgument = process.env.DEPLOYMENT_ALIAS_URL;
+const productionArgument = process.env.PRODUCTION_URL;
 const expectedCommit = process.env.EXPECTED_COMMIT?.toLowerCase();
 const expectedBranch = process.env.EXPECTED_BRANCH;
 const expectNoindex = process.env.EXPECT_NOINDEX === "true";
@@ -29,10 +30,14 @@ const normalizeBaseUrl = (value, label) => {
 
 let baseUrl;
 let aliasUrl;
+let productionUrl;
 try {
   baseUrl = normalizeBaseUrl(baseArgument, "Deployment URL");
   aliasUrl = aliasArgument
     ? normalizeBaseUrl(aliasArgument, "Deployment alias URL")
+    : undefined;
+  productionUrl = productionArgument
+    ? normalizeBaseUrl(productionArgument, "Production URL")
     : undefined;
 } catch (error) {
   console.error(error.message);
@@ -59,6 +64,13 @@ const request = (path, options = {}) =>
   fetch(new URL(path, baseUrl), {
     redirect: "manual",
     headers,
+    signal: AbortSignal.timeout(15_000),
+    ...options,
+  });
+
+const requestProduction = (path, options = {}) =>
+  fetch(new URL(path, productionUrl), {
+    redirect: "manual",
     signal: AbortSignal.timeout(15_000),
     ...options,
   });
@@ -212,6 +224,49 @@ if (aliasUrl && expectedBranch && expectedBranch !== "main") {
     errors.push(
       `Branch alias ${aliasUrl.hostname} does not start with ${expectedAlias}`,
     );
+  }
+}
+
+if (expectedBranch === "main") {
+  if (!productionUrl) {
+    errors.push("Main deployment verification requires PRODUCTION_URL.");
+  } else {
+    try {
+      const response = await requestProduction("/");
+      if (response.status !== 200) {
+        errors.push(`Production homepage returned ${response.status}.`);
+      } else {
+        const robotsHeader = response.headers.get("x-robots-tag") ?? "";
+        if (/\bnoindex\b/i.test(robotsHeader)) {
+          errors.push("Public production alias unexpectedly sends noindex.");
+        }
+      }
+    } catch (error) {
+      errors.push(`Production homepage request failed: ${error.message}`);
+    }
+
+    try {
+      const response = await requestProduction("/deployment.json");
+      if (response.status !== 200) {
+        errors.push(
+          `Production deployment metadata returned ${response.status}.`,
+        );
+      } else {
+        const metadata = await response.json();
+        if (expectedCommit && metadata.commit !== expectedCommit) {
+          errors.push(
+            `Expected production commit ${expectedCommit}, production alias reports ${metadata.commit}.`,
+          );
+        }
+        if (metadata.branch !== "main") {
+          errors.push(
+            `Expected production branch main, production alias reports ${metadata.branch}.`,
+          );
+        }
+      }
+    } catch (error) {
+      errors.push(`Production metadata check failed: ${error.message}`);
+    }
   }
 }
 

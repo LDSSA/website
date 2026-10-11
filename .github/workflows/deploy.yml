@@ -50,7 +50,10 @@ jobs:
           DEPLOYMENT_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
           EXPECTED_COMMIT: ${{ github.sha }}
           EXPECTED_BRANCH: ${{ github.ref_name }}
-          EXPECT_NOINDEX: ${{ github.ref != 'refs/heads/main' }}
+          # Wrangler returns an immutable deployment URL. Cloudflare treats
+          # that URL as a preview even when the source branch is main.
+          EXPECT_NOINDEX: "true"
+          PRODUCTION_URL: ${{ github.ref == 'refs/heads/main' && format('https://{0}.pages.dev', vars.CLOUDFLARE_PAGES_PROJECT || 'ldsa-website') || '' }}
           EXPECT_ANALYTICS: ${{ vars.CLOUDFLARE_WEB_ANALYTICS_TOKEN != '' }}
           CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
           CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}

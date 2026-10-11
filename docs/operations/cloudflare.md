@@ -50,7 +50,7 @@ In Cloudflare Zero Trust, protect preview deployments with Access. Complete the 
 
 The checker sends the service credentials only in Cloudflare Access request headers. Never put either value in repository variables, source files, logs, or chat. Record the token expiry and rotate the GitHub secrets before it expires.
 
-Cloudflare preview deployments should also send `X-Robots-Tag: noindex`. Verify the live response header before sharing the preview URL.
+Cloudflare's immutable deployment URLs, including immutable URLs created from `main`, should send `X-Robots-Tag: noindex`. The public production alias (`ldsa-website.pages.dev`, followed by the custom production domain after cutover) must not send `noindex`. The deployment workflow verifies both sides of this contract.
 
 ## 4. Production-only observability
 
