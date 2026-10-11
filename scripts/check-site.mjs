@@ -114,6 +114,8 @@ if (!existsSync(join(output, "_headers"))) {
   const headers = readFileSync(join(output, "_headers"), "utf8");
   if (!headers.includes("https://static.cloudflareinsights.com"))
     errors.push("CSP does not permit the Cloudflare Web Analytics beacon");
+  if (!headers.includes("https://cloudflareinsights.com"))
+    errors.push("CSP does not permit Cloudflare Web Analytics submissions");
 }
 
 const deployWorkflow = readFileSync(

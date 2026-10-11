@@ -54,7 +54,7 @@ Cloudflare preview deployments should also send `X-Robots-Tag: noindex`. Verify 
 
 ## 4. Enable observability
 
-The repository CSP permits Cloudflare's `https://static.cloudflareinsights.com` beacon. Its `connect-src 'self'` directive permits the automatically injected Pages beacon to report through the site's `/cdn-cgi/rum` endpoint.
+The repository CSP permits Cloudflare's `https://static.cloudflareinsights.com` beacon. Its `connect-src` directive permits both the site's own `/cdn-cgi/rum` endpoint and `https://cloudflareinsights.com`, which Pages preview deployments may use to submit beacon data.
 
 Enable Web Analytics without adding a paid product:
 

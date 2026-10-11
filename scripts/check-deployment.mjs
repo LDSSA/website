@@ -102,6 +102,11 @@ if (!homeResponse || homeResponse.status !== 200) {
       "content-security-policy does not permit the Cloudflare Web Analytics beacon.",
     );
   }
+  if (!contentSecurityPolicy.includes("https://cloudflareinsights.com")) {
+    errors.push(
+      "content-security-policy does not permit Cloudflare Web Analytics submissions.",
+    );
+  }
 
   const robotsHeader = homeResponse.headers.get("x-robots-tag") ?? "";
   if (expectNoindex && !/\bnoindex\b/i.test(robotsHeader)) {
